@@ -7,25 +7,25 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? profile.portfolio;
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Rafi Saifuddin — Mobile App Developer",
+    default: "Rafi Saifuddin — Mahasiswa Sistem Informasi",
     template: "%s · Rafi Saifuddin",
   },
   description:
-    "Portofolio personal Muhammad Ar Rafi Saifuddin. Mahasiswa Sistem Informasi dengan pengalaman IT support, basis data, dan riset data mining; berfokus ke pengembangan aplikasi mobile.",
+    "Portofolio Muhammad Ar Rafi Saifuddin, mahasiswa Sistem Informasi dengan pengalaman IT Support, sertifikasi Database Administrator, dan publikasi riset data mining.",
   applicationName: "Rafi Saifuddin Portfolio",
   authors: [{ name: "Muhammad Ar Rafi Saifuddin" }],
-  keywords: ["Mobile App Developer", "Expo", "React Native", "Portofolio", "IT Support", "Data Mining"],
+  keywords: ["Mahasiswa Sistem Informasi", "IT Support", "Database Administrator", "MySQL", "Laravel", "Data Mining", "Portofolio"],
   openGraph: {
     type: "website",
     locale: "id_ID",
     siteName: "Rafi Saifuddin",
-    title: "Rafi Saifuddin — Mobile App Developer",
-    description: "Pengalaman, riset, dan perjalanan menuju pengembangan aplikasi mobile.",
+    title: "Rafi Saifuddin — Sistem Informasi, IT Support & Data",
+    description: "Pengalaman IT Support, kompetensi basis data, dan publikasi riset data mining.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Rafi Saifuddin — Mobile App Developer",
-    description: "Pengalaman, riset, dan perjalanan menuju pengembangan aplikasi mobile.",
+    title: "Rafi Saifuddin — Sistem Informasi, IT Support & Data",
+    description: "Pengalaman IT Support, kompetensi basis data, dan publikasi riset data mining.",
   },
 };
 

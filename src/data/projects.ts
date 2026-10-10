@@ -26,7 +26,7 @@ export type Project = {
 export const projects: Project[] = [
   {
     slug: "klasifikasi-jamur-c45-naive-bayes",
-    title: "Analisis Perbandingan C4.5 dan Naive Bayes pada Spesies Jamur Beracun",
+    title: "Analisis Perbandingan Hasil Kerja Algoritma C4.5 dan Naive Bayes dalam Mengenali Spesies Jamur yang Beracun",
     kind: "Riset",
     year: "2026",
     summary:
@@ -46,7 +46,7 @@ export const projects: Project[] = [
       context:
         "Penelitian membandingkan hasil algoritma C4.5 dan Naive Bayes dalam mengenali spesies jamur beracun menggunakan dataset Mushroom.",
       role:
-        "Co-author. Berkontribusi dalam analisis dan perbandingan performa algoritma pada dataset yang digunakan.",
+        "Penulis bersama Bagas Muizul Rohmadan, Muhammad Alfa Reza, Naufal Shafly Fawwaz, dan Khairy Mumtaz Alhafidz. Berperan menganalisis dan membandingkan performa algoritma pada dataset yang digunakan.",
       process: [
         "Menggunakan dataset Mushroom yang telah tersedia.",
         "Menjalankan klasifikasi dengan C4.5 dan Naive Bayes melalui Orange Data Mining.",

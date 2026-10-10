@@ -6,7 +6,7 @@ import { AnimatePresence, motion } from "motion/react";
 import {
   ArrowDown, ArrowDownRight, ArrowRight, ArrowUpRight, BriefcaseBusiness,
   Check, Code2, Download, ExternalLink, Github, GraduationCap, Layers3,
-  Linkedin, MapPin, Menu, Moon, Smartphone, Sun, Wrench, X,
+  Linkedin, MapPin, Menu, Moon, Sun, Wrench, X,
 } from "lucide-react";
 import { profile } from "@/data/portfolio";
 import { projects, type ProjectKind } from "@/data/projects";
@@ -63,7 +63,7 @@ export function PortfolioSite() {
             <div className="hero-copy">
               <motion.p className="eyebrow" initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.12 }}><span className="availability-dot" /> PORTOFOLIO PERSONAL · JAKARTA, ID</motion.p>
               <motion.h1 id="home-title" tabIndex={-1} initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}>Membuat teknologi<br />terasa lebih <span>manusiawi.</span></motion.h1>
-              <motion.p className="hero-lede" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>Saya <strong>{profile.shortName}</strong> — {profile.role}. Berangkat dari IT support, basis data, dan riset; kini mengarahkan fokus ke pengalaman aplikasi mobile yang intuitif.</motion.p>
+              <motion.p className="hero-lede" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>Saya <strong>{profile.shortName}</strong> — {profile.role}. Berbekal pengalaman IT Support, kompetensi basis data, dan kontribusi pada riset ilmiah.</motion.p>
               <motion.div className="hero-actions" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }}>
                 <a className="button button--primary" href="#work">Lihat karya <ArrowDownRight size={16} /></a>
                 <a className="button button--quiet" href="#contact">Mari terhubung <ArrowRight size={15} /></a>
@@ -74,32 +74,32 @@ export function PortfolioSite() {
               <div className="hero-art__backdrop" />
               <div className="hero-art__orbit hero-art__orbit--a" /><div className="hero-art__orbit hero-art__orbit--b" />
               <div className="hero-portrait-frame"><ProfilePhoto className="hero-photo" sizes="(max-width: 768px) 65vw, 400px" /><span className="hero-photo-tag"><span /> OPEN TO OPPORTUNITIES</span></div>
-              <div className="floating-note floating-note--top"><Smartphone size={14} /><span>building for<br /><strong>small screens</strong></span></div>
+              <div className="floating-note floating-note--top"><Wrench size={14} /><span>solving for<br /><strong>real systems</strong></span></div>
               <div className="floating-note floating-note--bottom"><span className="note-star">✳</span><span>curiosity<br /><strong>in progress</strong></span></div>
               <span className="hero-art__index">01 / 04</span>
             </motion.div>
           </section>
 
           <section className="focus-strip page-shell" aria-label="Fokus pengembangan">
-            <span className="focus-strip__label"><Layers3 size={14} /> CURRENT DIRECTION</span>
-            <div>{profile.targetStack.map((technology) => <span className="focus-pill" key={technology}>{technology}</span>)}</div>
-            <span className="focus-strip__note">Arah belajar mobile development</span>
+            <span className="focus-strip__label"><Layers3 size={14} /> AREA KOMPETENSI</span>
+            <div>{profile.focusAreas.map((area) => <span className="focus-pill" key={area}>{area}</span>)}</div>
+            <span className="focus-strip__note">Fokus berdasarkan CV terbaru</span>
           </section>
 
           <section className="content-section page-shell" id="about">
-            <Reveal className="section-intro"><p className="eyebrow">01 / ABOUT ME</p><h2>Practical roots.<br /><span>Curious by nature.</span></h2><p>Perjalanan saya berawal dari merakit, merawat, dan memahami cara kerja teknologi. Sekarang saya ingin membawa perspektif itu ke produk mobile.</p></Reveal>
+            <Reveal className="section-intro"><p className="eyebrow">01 / ABOUT ME</p><h2>Practical roots.<br /><span>Curious by nature.</span></h2><p>Perjalanan saya berawal dari troubleshooting dan perawatan komputer, lalu berkembang ke pengelolaan basis data dan riset data mining.</p></Reveal>
             <div className="about-bento">
               <Reveal className="bento-card bento-bio"><span className="bento-index">A / STORY</span><h3>Teknologi seharusnya membantu tanpa terasa rumit.</h3><p>{profile.introduction}</p><div className="bio-location"><MapPin size={14} /> {profile.location}</div><div className="bio-doodle" aria-hidden="true">✳</div></Reveal>
               <Reveal delay={0.08} className="bento-card bento-skills"><span className="bento-index">B / TOOLBOX</span><h3>Yang saya kerjakan</h3><div className="skill-list">{profile.skills.map((skill) => <span key={skill.name}><i />{skill.name}</span>)}</div><div className="bento-softskills">{profile.softSkills.map((skill) => <span key={skill}>{skill}</span>)}</div></Reveal>
-              <Reveal delay={0.16} className="bento-card bento-education"><span className="bento-index">C / LEARNING</span><GraduationCap size={19} /><h3>Sistem Informasi</h3><p>Universitas Bina Sarana Informatika · Semester 7</p><span className="bento-date">2023 — SEKARANG</span><div className="edu-progress"><i /></div><small>Belajar, mencoba, mengulang.</small></Reveal>
-              <Reveal delay={0.23} className="bento-card bento-direction"><span className="bento-index">D / NEXT CHAPTER</span><div className="direction-icon"><Smartphone size={23} /></div><h3>Mobile-first mindset</h3><p>Sedang mengarahkan perjalanan ke pengembangan aplikasi mobile menggunakan ekosistem Expo dan React Native.</p><div className="direction-tags"><span>Expo</span><span>React Native</span><span>TypeScript</span></div></Reveal>
+              <Reveal delay={0.16} className="bento-card bento-education"><span className="bento-index">C / EDUCATION</span><GraduationCap size={19} /><h3>Sistem Informasi &amp; TKJ</h3><p>Universitas Bina Sarana Informatika · S1 Sistem Informasi · Semester 7<br />2023 — sekarang</p><p>SMK Prestasi Prima · Teknik Komputer &amp; Jaringan<br />2020 — 2023</p><div className="edu-progress"><i /></div><small>Belajar, mencoba, mengulang.</small></Reveal>
+              <Reveal delay={0.23} className="bento-card bento-direction"><span className="bento-index">D / FOCUS AREAS</span><div className="direction-icon"><Wrench size={23} /></div><h3>Teknologi yang siap membantu</h3><p>Fokus pada dukungan teknis, administrasi basis data, dan pengolahan data menggunakan Orange Data Mining.</p><div className="direction-tags"><span>IT Support</span><span>Database</span><span>Data Mining</span></div></Reveal>
               <Reveal delay={0.3} className="bento-card bento-cert"><span className="bento-index">E / CREDENTIALS</span><div className="cert-number">02<span>×</span></div><div><h3>Sertifikasi kompetensi</h3><p>Database Administrator · BNSP<br />Sistem Basis Data · PHPID</p></div><Check size={17} /></Reveal>
             </div>
           </section>
 
           <section className="work-section" id="work">
             <div className="page-shell">
-              <Reveal className="work-heading"><div><p className="eyebrow">02 / SELECTED WORK</p><h2>Hal-hal yang pernah<br /><span>saya tekuni.</span></h2></div><p>Kumpulan riset, pengalaman, dan sertifikasi yang membentuk fondasi saya sebagai developer.</p></Reveal>
+              <Reveal className="work-heading"><div><p className="eyebrow">02 / SELECTED WORK</p><h2>Hal-hal yang pernah<br /><span>saya tekuni.</span></h2></div><p>Kumpulan riset, pengalaman, dan sertifikasi yang membentuk fondasi saya di bidang teknologi informasi.</p></Reveal>
               <div className="project-toolbar"><div className="project-filters" role="group" aria-label="Filter karya">{filters.map((item) => <button type="button" key={item} className={filter === item ? "is-active" : ""} aria-pressed={filter === item} onClick={() => setFilter(item)}>{item}</button>)}</div><span>{String(visibleProjects.length).padStart(2, "0")} KARYA</span></div>
               <motion.div className="project-grid" layout>
                 <AnimatePresence mode="popLayout">

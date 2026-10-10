@@ -18,9 +18,9 @@ Buka `http://localhost:3000`.
 - `src/data/portfolio.ts`: identitas, ringkasan, kontak, pendidikan, skill, dan arah tech stack.
 - `src/data/projects.ts`: kartu karya dan isi case study. Menambah objek baru otomatis menambah kartu dan halaman `/projects/[slug]`.
 - Foto profil menggunakan avatar GitHub publik. Ganti properti `avatar` di `portfolio.ts` dengan `/images/profile.jpg` setelah foto diletakkan di `public/images/profile.jpg`.
-- CV ada di `public/assets/cv-muhammad-ar-rafi-saifuddin.pdf`.
+- CV terbaru ada di `public/assets/cv-muhammad-ar-rafi-saifuddin.docx`.
 
-Konten mengambil pengalaman, pendidikan, sertifikasi, dan publikasi dari CV. Expo, React Native, dan TypeScript ditampilkan sebagai arah pengembangan. Mockup proyek bisa diganti dengan screenshot asli saat tersedia.
+Konten mengambil pengalaman, pendidikan, sertifikasi, kemampuan, dan publikasi dari CV terbaru. Visual proyek merupakan mockup editorial, bukan screenshot aplikasi.
 
 ## Publish lewat GitHub Pages
 
@@ -49,7 +49,7 @@ src/
   components/portfolio/
   data/
 public/
-  assets/cv-muhammad-ar-rafi-saifuddin.pdf
+  assets/cv-muhammad-ar-rafi-saifuddin.docx
 scripts/
   build-pages.mjs
 ```
