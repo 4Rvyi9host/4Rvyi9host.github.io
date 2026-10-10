@@ -24,14 +24,14 @@ Konten mengambil pengalaman, pendidikan, sertifikasi, dan publikasi dari CV. Exp
 
 ## Publish lewat GitHub Pages
 
-Workflow `.github/workflows/githubpage.yaml` menjalankan build statis setiap ada push ke `main`, lalu memperbarui file situs di root repository. Pengaturan Pages tetap memakai branch `main` dan folder root seperti sebelumnya.
+Workflow `.github/workflows/githubpage.yaml` menjalankan build statis setiap ada push ke `mine`, lalu memperbarui file situs di root repository. Pengaturan Pages tetap memakai branch `mine` dan folder root.
 
-Untuk menerbitkan perubahan, cukup push source ke `main`:
+Untuk menerbitkan perubahan, cukup push source ke `mine`:
 
 ```bash
 git add -A
 git commit -m "Update portfolio"
-git push origin main
+git push origin mine
 ```
 
 Setelah workflow selesai, GitHub Pages memperbarui situs. Repo `portofolio` memakai <https://4rvyi9host.github.io/portofolio/>; repo profil `4Rvyi9host.github.io` memakai <https://4rvyi9host.github.io/>. Tidak perlu mengubah pengaturan Pages.

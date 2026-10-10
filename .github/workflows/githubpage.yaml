@@ -2,19 +2,19 @@ name: Publish GitHub Pages
 
 on:
   push:
-    branches: [main]
+    branches: [mine]
   workflow_dispatch:
 
 permissions:
   contents: write
 
 concurrency:
-  group: github-pages-main
+  group: github-pages-mine
   cancel-in-progress: false
 
 jobs:
   build-and-publish:
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/mine'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -45,4 +45,4 @@ jobs:
             exit 0
           fi
           git commit -m "Deploy portfolio to GitHub Pages"
-          git push origin HEAD:main
+          git push origin HEAD:mine
