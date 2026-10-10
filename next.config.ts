@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
-const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+const configuredBasePath = process.env.NEXT_PUBLIC_BASE_PATH;
+const basePath = configuredBasePath === "__ROOT__" ? "" : configuredBasePath ?? "";
 
 const nextConfig: NextConfig = {
   output: "export",

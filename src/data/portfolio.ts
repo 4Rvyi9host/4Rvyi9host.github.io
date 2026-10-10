@@ -1,3 +1,6 @@
+const configuredBasePath = process.env.NEXT_PUBLIC_BASE_PATH;
+const assetBasePath = configuredBasePath === "__ROOT__" ? "" : configuredBasePath ?? "";
+
 export const profile = {
   name: "Muhammad Ar Rafi Saifuddin",
   shortName: "Rafi",
@@ -9,7 +12,7 @@ export const profile = {
   github: "https://github.com/4Rvyi9host",
   linkedin: "https://www.linkedin.com/in/mhmmd-arrafi-b53248279/",
   portfolio: "https://4rvyi9host.github.io/portofolio",
-  cv: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/assets/cv-muhammad-ar-rafi-saifuddin.pdf`,
+  cv: `${assetBasePath}/assets/cv-muhammad-ar-rafi-saifuddin.pdf`,
   // Uses the public avatar from the GitHub profile already linked in the CV/site.
   avatar: "https://github.com/4Rvyi9host.png?size=640",
   introduction:
