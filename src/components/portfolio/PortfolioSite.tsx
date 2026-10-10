@@ -104,7 +104,7 @@ export function PortfolioSite() {
               <motion.div className="project-grid" layout>
                 <AnimatePresence mode="popLayout">
                   {visibleProjects.map((project, index) => (
-                    <motion.article key={project.slug} className={`project-tile ${project.featured ? "project-tile--featured" : ""}`} layout initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, scale: 0.96 }} transition={{ duration: 0.28, delay: index * 0.035 }} whileHover={{ y: -5 }}>
+                    <motion.article key={project.slug} className={`project-tile ${project.featured ? "project-tile--featured" : ""}`} layout initial={{ opacity: 0, y: 18, scale: 0.985 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, scale: 0.97, y: -6 }} transition={{ duration: 0.48, delay: index * 0.045, ease: [0.2, 0.8, 0.2, 1] }} whileHover={{ y: -5, transition: { type: "spring", stiffness: 260, damping: 19 } }}>
                       <Link href={`/projects/${project.slug}`} className="project-tile__link" aria-label={`Buka case study: ${project.title}`}>
                         <ProjectVisual project={project} compact />
                         <div className="project-tile__body"><div className="project-tile__meta"><span>{project.kind}</span><span>{project.year}</span></div><h3>{project.title}</h3><p>{project.summary}</p><div className="project-tags">{project.stack.slice(0, 3).map((tag) => <span key={tag}>{tag}</span>)}</div><span className="project-open">Lihat case study <ArrowUpRight size={15} /></span></div>

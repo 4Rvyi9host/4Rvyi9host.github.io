@@ -57,7 +57,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .intro-scene { position:fixed; z-index:100; inset:0; display:grid; place-items:center; overflow:hidden; color:#f0f2e9; background:#090e0d; isolation:isolate; }
 .intro-canvas,.intro-vignette,.intro-grain { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; }
 .intro-canvas { z-index:-2; }
-.intro-vignette { z-index:-1; background:radial-gradient(ellipse at center,transparent 18%,rgba(7,11,10,.28) 67%,rgba(7,11,10,.92) 120%); }
+.intro-vignette { z-index:-1; background:radial-gradient(ellipse at center,transparent 18%,rgba(7,11,10,.18) 67%,rgba(7,11,10,.82) 120%); }
 .intro-topline,.intro-bottom { position:absolute; z-index:3; left:clamp(20px,4vw,58px); right:clamp(20px,4vw,58px); display:flex; justify-content:space-between; align-items:center; color:#87948a; font:10px var(--font-code); letter-spacing:.14em; }
 .intro-topline { top:clamp(20px,4vh,42px); }.intro-bottom { bottom:clamp(20px,4vh,42px); }
 .intro-topline span:first-child { display:flex; align-items:center; gap:9px; color:#c8f27a; }.intro-topline i,.availability-dot { width:7px; height:7px; border-radius:50%; background:#c8f27a; box-shadow:0 0 14px rgba(200,242,122,.55); }
@@ -65,21 +65,29 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .intro-skip kbd { padding:3px 5px; border:1px solid #39433b; border-radius:4px; color:#849085; font:9px var(--font-code); }
 .intro-focus { position:relative; z-index:2; display:flex; flex-direction:column; align-items:center; width:min(700px,calc(100% - 36px)); text-align:center; }
 .intro-photo-halo { position:relative; display:grid; place-items:center; width:clamp(170px,22vw,242px); aspect-ratio:1; margin-bottom:28px; }
-.intro-photo-ring { position:absolute; inset:0; border:1px solid rgba(200,242,122,.2); border-radius:50%; }
-.intro-photo-ring--one { animation:intro-ring 18s linear infinite; border-style:dashed; }
-.intro-photo-ring--two { inset:12px; border-color:rgba(219,228,211,.19); transform:rotate(-24deg) scaleY(.76); }
-@keyframes intro-ring { to { transform:rotate(360deg); } }
+.intro-photo-ring { position:absolute; inset:0; border:1px solid rgba(200,242,122,.2); border-radius:44% 56% 51% 49% / 52% 44% 56% 48%; }
+.intro-photo-ring--one { animation:intro-blob 9s ease-in-out infinite alternate; border-style:dashed; }
+.intro-photo-ring--two { inset:12px; border-color:rgba(219,228,211,.19); border-radius:50%; transform:rotate(-24deg) scaleY(.76); animation:intro-orbit 24s linear infinite; }
+@keyframes intro-blob { 0% { border-radius:44% 56% 51% 49% / 52% 44% 56% 48%; transform:rotate(-8deg) scale(.98); } 100% { border-radius:57% 43% 45% 55% / 43% 56% 44% 57%; transform:rotate(8deg) scale(1.035); } }
+@keyframes intro-orbit { to { transform:rotate(336deg) scaleY(.76); } }
+@keyframes sticker-float { 0%,100% { translate:0 0; rotate:-5deg; } 50% { translate:0 -9px; rotate:5deg; } }
+@keyframes sticker-bob { 0%,100% { translate:0 0; rotate:8deg; } 50% { translate:0 7px; rotate:-5deg; } }
 .profile-photo { position:relative; overflow:hidden; border-radius:50%; background:radial-gradient(circle at 28% 22%,#61754c,#29372c 58%,#171f1b); }
 .profile-photo img { object-fit:cover; object-position:center 35%; }
 .profile-photo-fallback { color:#ebf3e1; font:500 48px var(--font-display); letter-spacing:-.09em; }
 .profile-photo-fallback span { color:var(--accent); }
 .intro-photo { width:76%; height:76%; border:4px solid #101713; box-shadow:0 0 0 1px rgba(200,242,122,.45),0 14px 60px rgba(0,0,0,.45); }
+.intro-sticker { position:absolute; z-index:2; display:grid; place-items:center; color:#14200f; background:#c8f27a; box-shadow:0 5px 0 rgba(0,0,0,.22); }
+.intro-sticker--spark { top:7%; right:4%; width:42px; height:42px; clip-path:polygon(50% 0,61% 34%,96% 18%,75% 50%,100% 70%,65% 68%,53% 100%,39% 69%,4% 83%,26% 54%,0 31%,38% 36%); font-size:0; animation:sticker-float 3.7s ease-in-out infinite; }
+.intro-sticker--bubble { left:1%; bottom:17%; width:33px; height:33px; border:3px solid #111a13; border-radius:50%; background:#67e7cc; animation:sticker-bob 4.3s ease-in-out infinite; }
+.intro-sticker--bubble i { width:8px; height:5px; border-radius:50%; background:rgba(255,255,255,.8); translate:-5px -6px; }
+.intro-sticker--smile { right:1%; bottom:12%; width:38px; height:38px; border:2px solid #182016; border-radius:44% 56% 46% 54%; color:#182016; background:#ffca70; font-size:25px; line-height:1; animation:sticker-float 4.8s ease-in-out infinite reverse; }
 .intro-photo-spark { position:absolute; right:14%; bottom:20%; display:grid; place-items:center; width:30px; height:30px; border:1px solid rgba(200,242,122,.55); border-radius:50%; color:#c8f27a; background:#172017; }
 .intro-index { margin:0 0 12px; color:#9aa994; font:10px var(--font-code); letter-spacing:.17em; }
 .intro-focus h1 { margin:0; color:#eef1e7; font:500 clamp(34px,6vw,64px)/1.04 var(--font-display); letter-spacing:-.075em; }
 .intro-focus h1 span { color:#c8f27a; }
 .intro-role { max-width:450px; margin:14px 0 22px; color:#9ea99c; font-size:13px; line-height:1.7; }.intro-role span { color:#c8f27a; }
-.intro-enter { min-width:214px; min-height:48px; display:flex; align-items:center; justify-content:center; gap:22px; border:1px solid rgba(200,242,122,.45); border-radius:3px; color:#11160e; background:#c8f27a; cursor:pointer; font-size:12px; font-weight:650; transition:transform .25s,box-shadow .25s,background .25s; }
+.intro-enter { min-width:214px; min-height:48px; display:flex; align-items:center; justify-content:center; gap:22px; border:1px solid rgba(200,242,122,.45); border-radius:16px 16px 16px 5px; color:#11160e; background:#c8f27a; cursor:pointer; font-size:12px; font-weight:650; transition:transform .45s cubic-bezier(.2,.8,.2,1),box-shadow .45s cubic-bezier(.2,.8,.2,1),background .3s; }
 .intro-enter:hover { transform:translateY(-2px); background:#d7ff91; box-shadow:0 9px 32px rgba(200,242,122,.17); }.intro-enter svg { width:16px; }
 .intro-enter:not(.intro-enter--ready) { color:#cfdbbd; border-color:#3e4b3b; background:#151c17; cursor:default; }
 .intro-loader { width:13px; height:13px; border:1px solid #53644a; border-top-color:#c8f27a; border-radius:50%; animation:spin .8s linear infinite; }
