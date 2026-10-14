@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { profile } from "@/data/portfolio";
+import { LanguageProvider } from "@/components/portfolio/LanguageProvider";
 import "./globals.css";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? profile.portfolio;
@@ -11,10 +12,10 @@ export const metadata: Metadata = {
     template: "%s · Rafi Saifuddin",
   },
   description:
-    "Portofolio Muhammad Ar Rafi Saifuddin, mahasiswa Sistem Informasi dengan pengalaman IT Support, sertifikasi Database Administrator, dan publikasi riset data mining.",
+    "Personal portfolio of Muhammad Ar Rafi Saifuddin, an Information Systems student with experience in IT support, database administration, and data mining research. / Portofolio Muhammad Ar Rafi Saifuddin, mahasiswa Sistem Informasi dengan pengalaman IT Support dan riset data mining.",
   applicationName: "Rafi Saifuddin Portfolio",
   authors: [{ name: "Muhammad Ar Rafi Saifuddin" }],
-  keywords: ["Mahasiswa Sistem Informasi", "IT Support", "Database Administrator", "MySQL", "Laravel", "Data Mining", "Portofolio"],
+  keywords: ["Information Systems Student", "IT Support", "Database Administrator", "MySQL", "Laravel", "Data Mining", "Portfolio", "Mahasiswa Sistem Informasi", "Portofolio"],
   openGraph: {
     type: "website",
     locale: "id_ID",
@@ -41,7 +42,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="id" data-theme="dark">
-      <body>{children}</body>
+      <body><LanguageProvider>{children}</LanguageProvider></body>
     </html>
   );
 }

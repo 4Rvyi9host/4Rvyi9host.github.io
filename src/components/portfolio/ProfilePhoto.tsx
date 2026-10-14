@@ -3,18 +3,20 @@
 import Image from "next/image";
 import { useState } from "react";
 import { profile } from "@/data/portfolio";
+import { useLanguage } from "./LanguageProvider";
 
 type ProfilePhotoProps = { className?: string; sizes?: string; priority?: boolean };
 
 export function ProfilePhoto({ className = "", sizes = "(max-width: 768px) 34vw, 220px", priority = false }: ProfilePhotoProps) {
   const [failed, setFailed] = useState(false);
+  const { language } = useLanguage();
 
   return (
     <div className={`profile-photo ${className}`}>
       {!failed ? (
         <Image
           src={profile.avatar}
-          alt={`Foto profil ${profile.name}`}
+          alt={language === "en" ? `Profile photo of ${profile.name}` : `Foto profil ${profile.name}`}
           fill
           sizes={sizes}
           unoptimized
@@ -22,7 +24,7 @@ export function ProfilePhoto({ className = "", sizes = "(max-width: 768px) 34vw,
           onError={() => setFailed(true)}
         />
       ) : (
-        <span className="profile-photo-fallback" aria-label={`Inisial ${profile.shortName}`}>
+        <span className="profile-photo-fallback" aria-label={language === "en" ? `Initials for ${profile.shortName}` : `Inisial ${profile.shortName}`}>
           RA<span>.</span>
         </span>
       )}

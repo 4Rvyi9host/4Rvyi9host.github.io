@@ -2,9 +2,12 @@
 
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { ArrowDownRight, ArrowRight, Sparkles } from "lucide-react";
+import { ArrowDown, ArrowDownRight, Sparkles } from "lucide-react";
 import { profile } from "@/data/portfolio";
+import { profileCopy } from "@/data/locales";
 import { ProfilePhoto } from "./ProfilePhoto";
+import { CelestialDecor } from "./CelestialDecor";
+import { LanguageSwitch, useLanguage } from "./LanguageProvider";
 
 type IntroExperienceProps = { onComplete: () => void; visible: boolean };
 type Particle = { x: number; y: number; vx: number; vy: number; radius: number; phase: number; shape: "dot" | "spark" | "bubble" };
@@ -147,6 +150,8 @@ function InteractiveField() {
 
 export function IntroExperience({ onComplete, visible }: IntroExperienceProps) {
   const reducedMotion = useReducedMotion();
+  const { language, t } = useLanguage();
+  const role = language === "en" ? profileCopy.en.role : profile.role;
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -156,11 +161,36 @@ export function IntroExperience({ onComplete, visible }: IntroExperienceProps) {
 
   useEffect(() => {
     if (!visible) return;
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape" || event.key === "Enter") onComplete();
+    let touchStartY = 0;
+    const onWheel = (event: WheelEvent) => {
+      if (event.deltaY <= 12) return;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      onComplete();
     };
+    const onTouchStart = (event: TouchEvent) => {
+      touchStartY = event.touches[0]?.clientY ?? 0;
+    };
+    const onTouchEnd = (event: TouchEvent) => {
+      const touchEndY = event.changedTouches[0]?.clientY ?? touchStartY;
+      if (touchStartY - touchEndY > 42) onComplete();
+    };
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape" || event.key === "Enter" || event.key === "ArrowDown" || event.key === "PageDown" || event.key === " ") {
+        if (event.key !== "Escape") event.preventDefault();
+        onComplete();
+      }
+    };
+    window.addEventListener("wheel", onWheel, { capture: true, passive: false });
+    window.addEventListener("touchstart", onTouchStart, { passive: true });
+    window.addEventListener("touchend", onTouchEnd, { passive: true });
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    return () => {
+      window.removeEventListener("wheel", onWheel, true);
+      window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchend", onTouchEnd);
+      window.removeEventListener("keydown", onKey);
+    };
   }, [onComplete, visible]);
 
   return (
@@ -168,7 +198,7 @@ export function IntroExperience({ onComplete, visible }: IntroExperienceProps) {
       {visible && (
         <motion.section
           className="intro-scene"
-          aria-label="Animasi pembuka portofolio"
+          aria-label={t.introAria}
           aria-modal="true"
           role="dialog"
           initial={{ opacity: 1 }}
@@ -176,16 +206,17 @@ export function IntroExperience({ onComplete, visible }: IntroExperienceProps) {
           transition={{ duration: reducedMotion ? 0.15 : 0.65, ease: [0.2, 0.8, 0.2, 1] }}
         >
           <InteractiveField />
+          <CelestialDecor />
           <div className="intro-vignette" />
           <header className="intro-topline"><span><i /> FIELD NOTE 001</span><span>TECH / DATA / HUMAN</span></header>
-          <button className="intro-skip" type="button" onClick={onComplete}>Lewati intro <kbd>ESC</kbd></button>
+          <div className="intro-utilities"><LanguageSwitch compact /><button className="intro-skip" type="button" onClick={onComplete}>{t.introSkip} <kbd>ESC</kbd></button></div>
 
           <div className="intro-focus">
             <motion.div
               className="intro-photo-halo"
-              initial={reducedMotion ? false : { opacity: 0, scale: 0.72, rotate: -14 }}
+              initial={{ opacity: 0, scale: 0.72, rotate: -14 }}
               animate={{ opacity: 1, scale: 1, rotate: 0 }}
-              transition={{ type: "spring", stiffness: 82, damping: 14, mass: 0.9, delay: 0.08 }}
+              transition={reducedMotion ? { duration: 0.01 } : { type: "spring", stiffness: 82, damping: 14, mass: 0.9, delay: 0.08 }}
             >
               <span className="intro-photo-ring intro-photo-ring--one" />
               <span className="intro-photo-ring intro-photo-ring--two" />
@@ -196,12 +227,12 @@ export function IntroExperience({ onComplete, visible }: IntroExperienceProps) {
               <span className="intro-photo-spark"><Sparkles size={15} /></span>
             </motion.div>
 
-            <motion.p className="intro-index" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.38, duration: 0.65, ease: [0.2, 0.8, 0.2, 1] }}>A PERSONAL PORTFOLIO · {new Date().getFullYear()}</motion.p>
-            <motion.h1 initial={reducedMotion ? false : { opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55, duration: 0.85, ease: [0.2, 0.8, 0.2, 1] }}>
-              Halo, saya <span>{profile.shortName}.</span>
+            <motion.p className="intro-index" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.38, duration: 0.65, ease: [0.2, 0.8, 0.2, 1] }}>{t.introIndex} · {new Date().getFullYear()}</motion.p>
+            <motion.h1 initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55, duration: reducedMotion ? 0.01 : 0.85, ease: [0.2, 0.8, 0.2, 1] }}>
+              {t.introHello} <span>{profile.shortName}.</span>
             </motion.h1>
             <motion.p className="intro-role" initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.78, duration: 0.65, ease: [0.2, 0.8, 0.2, 1] }}>
-              {profile.role} <span>·</span> merangkai pengalaman digital yang terasa dekat.
+              {role} <span>·</span> {t.introRole}
             </motion.p>
             <motion.button
               className={`intro-enter ${ready ? "intro-enter--ready" : ""}`}
@@ -211,12 +242,12 @@ export function IntroExperience({ onComplete, visible }: IntroExperienceProps) {
               animate={{ opacity: ready ? 1 : 0.45, y: 0 }}
               transition={{ delay: ready ? 0 : 0.95, duration: 0.6, ease: [0.2, 0.8, 0.2, 1] }}
             >
-              <span>{ready ? "Masuk ke portofolio" : "Membangun koneksi…"}</span>
+              <span>{ready ? t.introEnter : t.introLoading}</span>
               {ready ? <ArrowDownRight size={17} /> : <span className="intro-loader" />}
             </motion.button>
           </div>
 
-          <footer className="intro-bottom"><span>MUHAMMAD AR RAFI SAIFUDDIN</span><span>GERAKKAN KURSOR · KLIK UNTUK MEMBUAT GELOMBANG <ArrowRight size={12} /></span></footer>
+          <footer className="intro-bottom"><span>MUHAMMAD AR RAFI SAIFUDDIN</span><span>{t.introHint} <ArrowDown size={12} /></span></footer>
         </motion.section>
       )}
     </AnimatePresence>
