@@ -231,7 +231,7 @@ export function PortfolioSite() {
                 { year: "2022", ...t.timeline[3], icon: Wrench },
               ].map((item, index) => {
                 const Icon = item.icon;
-                return <Reveal delay={index * 0.07} key={item.title}><article className="experience-item"><span className="experience-year">{item.year}</span><span className="experience-node"><Icon size={14} /></span><div><h3>{item.title}</h3><p className="experience-meta">{item.meta}</p><p className="experience-description">{item.text}</p></div>{item.href && <a className="experience-external" href={item.href} target="_blank" rel="noreferrer" aria-label={t.viewPublication}><ExternalLink size={15} /></a>}</article></Reveal>;
+                return <Reveal delay={index * 0.07} key={item.title}><article className="experience-item"><span className="experience-year">{item.year}</span><span className="experience-node"><Icon size={14} /></span><div><h3>{item.title}</h3><p className="experience-meta">{item.meta}</p><p className="experience-description">{item.text}</p></div>{"href" in item && <a className="experience-external" href={item.href} target="_blank" rel="noreferrer" aria-label={t.viewPublication}><ExternalLink size={15} /></a>}</article></Reveal>;
               })}
             </div>
           </section>
