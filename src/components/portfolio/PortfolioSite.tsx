@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "motion/react";
 import {
@@ -12,7 +12,6 @@ import { profile } from "@/data/portfolio";
 import { projects } from "@/data/projects";
 import { getLocalizedProject, profileCopy } from "@/data/locales";
 import { ContactForm } from "./ContactForm";
-import { CelestialDecor } from "./CelestialDecor";
 import { CursorWaves } from "./CursorWaves";
 import { IntroExperience } from "./IntroExperience";
 import { ProfilePhoto } from "./ProfilePhoto";
@@ -24,7 +23,6 @@ const filters = ["all", "Riset", "Pengalaman", "Sertifikasi"] as const;
 
 export function PortfolioSite() {
   const { language, t } = useLanguage();
-  const [introDone, setIntroDone] = useState(false);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [filter, setFilter] = useState<(typeof filters)[number]>("all");
   const [menuOpen, setMenuOpen] = useState(false);
@@ -113,11 +111,6 @@ export function PortfolioSite() {
     };
   }, []);
 
-  const enterPortfolio = useCallback(() => {
-    setIntroDone(true);
-    window.setTimeout(() => document.getElementById("home-title")?.focus(), 650);
-  }, []);
-
   const visibleProjects = projects.filter((project) => filter === "all" || project.kind === filter);
   const projectLabels: Record<(typeof filters)[number], string> = {
     all: t.all,
@@ -134,9 +127,8 @@ export function PortfolioSite() {
 
   return (
     <div className="site-root relative min-h-screen overflow-x-clip bg-[var(--bg)] text-[var(--text)]">
+      <IntroExperience />
       <CursorWaves />
-      <IntroExperience visible={!introDone} onComplete={enterPortfolio} />
-      <div inert={!introDone ? true : undefined} aria-hidden={!introDone}>
         <header className="site-header">
           <div className="site-header__inner page-shell">
             <a href="#home" className="wordmark" aria-label={language === "en" ? "Rafi, back to top" : "Rafi, ke awal"}><span className="wordmark__symbol">ra<span>.</span></span><span className="wordmark__label">rafi builds things</span></a>
@@ -174,7 +166,6 @@ export function PortfolioSite() {
               <div className="hero-footnote"><span>{t.scrollHint}</span><ArrowDown size={13} /></div>
             </div>
             <motion.div className="hero-art" initial={{ opacity: 0, scale: 0.92, rotate: 2 }} animate={{ opacity: 1, scale: 1, rotate: 0 }} transition={{ delay: 0.35, duration: 1, ease: [0.22, 1, 0.36, 1] }}>
-              <CelestialDecor variant="hero" />
               <div className="hero-art__backdrop" />
               <div className="hero-art__orbit hero-art__orbit--a" /><div className="hero-art__orbit hero-art__orbit--b" />
               <div className="hero-portrait-frame"><ProfilePhoto className="hero-photo" sizes="(max-width: 768px) 65vw, 400px" /><span className="hero-photo-tag"><span /> {t.opportunities}</span></div>
@@ -212,7 +203,7 @@ export function PortfolioSite() {
                     return <motion.article key={project.slug} className={`project-tile ${project.featured ? "project-tile--featured" : ""}`} layout initial={{ opacity: 0, y: 18, scale: 0.985 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, scale: 0.97, y: -6 }} transition={{ duration: 0.48, delay: index * 0.045, ease: [0.2, 0.8, 0.2, 1] }} whileHover={{ y: -5, transition: { type: "spring", stiffness: 260, damping: 19 } }}>
                       <Link href={`/projects/${project.slug}`} className="project-tile__link" aria-label={t.openCaseStudy.replace("{title}", project.title)}>
                         <ProjectVisual project={project} compact />
-                        <div className="project-tile__body"><div className="project-tile__meta"><span>{project.kindLabel}</span><span>{project.year}</span></div><h3>{project.title}</h3><p>{project.summary}</p><div className="project-tags">{project.stack.slice(0, 3).map((tag) => <span key={tag}>{tag}</span>)}</div><span className="project-open">{t.caseStudy} <ArrowUpRight size={15} /></span></div>
+                        <div className="project-tile__body"><div className="project-tile__meta"><span>{project.kindLabel}</span><span>{project.year}</span></div><h3>{project.title}</h3><p>{project.summary}</p><div className="project-role-preview"><span>{t.projectRoleLabel}</span><p>{project.caseStudy.role}</p></div><div className="project-outcome-preview"><span>{t.projectOutcomeLabel}</span><p>{project.caseStudy.outcome}</p></div><div className="project-tags">{project.stack.slice(0, 3).map((tag) => <span key={tag}>{tag}</span>)}</div><span className="project-open">{t.caseStudy} <ArrowUpRight size={15} /></span></div>
                       </Link>
                     </motion.article>;
                   })}
@@ -243,7 +234,6 @@ export function PortfolioSite() {
         </main>
 
         <footer className="site-footer page-shell"><a className="wordmark" href="#home"><span className="wordmark__symbol">ra<span>.</span></span></a><p>{t.madeWith}</p><span>© {new Date().getFullYear()} {profile.name}</span><a href="#home">{t.backToTop}</a></footer>
-      </div>
     </div>
   );
 }

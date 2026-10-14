@@ -1,13 +1,23 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import { ArrowUpRight, Send } from "lucide-react";
+import { ArrowUpRight, Check, Copy, Send } from "lucide-react";
 import { profile } from "@/data/portfolio";
 import { useLanguage } from "./LanguageProvider";
 
 export function ContactForm() {
   const { t } = useLanguage();
   const [ready, setReady] = useState(false);
+  const [copyState, setCopyState] = useState<"idle" | "copied" | "failed">("idle");
+
+  async function copyEmail() {
+    try {
+      await navigator.clipboard.writeText(profile.email);
+      setCopyState("copied");
+    } catch {
+      setCopyState("failed");
+    }
+  }
 
   function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -34,7 +44,13 @@ export function ContactForm() {
         <button className="button button--primary" type="submit"><Send size={15} /> {t.sendEmail}</button>
         <p aria-live="polite">{ready ? t.emailOpening : t.emailHelp}</p>
       </div>
-      <a className="contact-mail-link" href={`mailto:${profile.email}`}>{profile.email}<ArrowUpRight size={14} /></a>
+      <div className="contact-mail-row">
+        <a className="contact-mail-link" href={`mailto:${profile.email}`}>{profile.email}<ArrowUpRight size={14} /></a>
+        <button className="contact-copy-button" type="button" onClick={copyEmail} aria-label={copyState === "copied" ? t.emailCopied : t.copyEmail}>
+          {copyState === "copied" ? <Check size={13} /> : <Copy size={13} />}{copyState === "copied" ? t.emailCopied : t.copyEmail}
+        </button>
+        <span className="contact-copy-status" aria-live="polite">{copyState === "failed" ? t.emailCopyFailed : ""}</span>
+      </div>
     </form>
   );
 }

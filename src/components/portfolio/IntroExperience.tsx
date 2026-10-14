@@ -1,15 +1,13 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { useEffect, useRef } from "react";
+import { motion, useReducedMotion } from "motion/react";
 import { ArrowDown, ArrowDownRight, Sparkles } from "lucide-react";
 import { profile } from "@/data/portfolio";
 import { profileCopy } from "@/data/locales";
 import { ProfilePhoto } from "./ProfilePhoto";
-import { CelestialDecor } from "./CelestialDecor";
 import { LanguageSwitch, useLanguage } from "./LanguageProvider";
 
-type IntroExperienceProps = { onComplete: () => void; visible: boolean };
 type Particle = { x: number; y: number; vx: number; vy: number; radius: number; phase: number; shape: "dot" | "spark" | "bubble" };
 type Wave = { x: number; y: number; born: number };
 
@@ -148,68 +146,26 @@ function InteractiveField() {
   return <canvas ref={canvasRef} className="intro-canvas" aria-hidden="true" />;
 }
 
-export function IntroExperience({ onComplete, visible }: IntroExperienceProps) {
+export function IntroExperience() {
   const reducedMotion = useReducedMotion();
   const { language, t } = useLanguage();
   const role = language === "en" ? profileCopy.en.role : profile.role;
-  const [ready, setReady] = useState(false);
-
-  useEffect(() => {
-    const timer = window.setTimeout(() => setReady(true), reducedMotion ? 100 : 2800);
-    return () => window.clearTimeout(timer);
-  }, [reducedMotion]);
-
-  useEffect(() => {
-    if (!visible) return;
-    let touchStartY = 0;
-    const onWheel = (event: WheelEvent) => {
-      if (event.deltaY <= 12) return;
-      event.preventDefault();
-      event.stopImmediatePropagation();
-      onComplete();
-    };
-    const onTouchStart = (event: TouchEvent) => {
-      touchStartY = event.touches[0]?.clientY ?? 0;
-    };
-    const onTouchEnd = (event: TouchEvent) => {
-      const touchEndY = event.changedTouches[0]?.clientY ?? touchStartY;
-      if (touchStartY - touchEndY > 42) onComplete();
-    };
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape" || event.key === "Enter" || event.key === "ArrowDown" || event.key === "PageDown" || event.key === " ") {
-        if (event.key !== "Escape") event.preventDefault();
-        onComplete();
-      }
-    };
-    window.addEventListener("wheel", onWheel, { capture: true, passive: false });
-    window.addEventListener("touchstart", onTouchStart, { passive: true });
-    window.addEventListener("touchend", onTouchEnd, { passive: true });
-    window.addEventListener("keydown", onKey);
-    return () => {
-      window.removeEventListener("wheel", onWheel, true);
-      window.removeEventListener("touchstart", onTouchStart);
-      window.removeEventListener("touchend", onTouchEnd);
-      window.removeEventListener("keydown", onKey);
-    };
-  }, [onComplete, visible]);
+  const diagnosticStages = language === "en"
+    ? ["IT SUPPORT", "DATABASE", "DATA MINING"]
+    : ["IT SUPPORT", "BASIS DATA", "DATA MINING"];
 
   return (
-    <AnimatePresence>
-      {visible && (
         <motion.section
           className="intro-scene"
           aria-label={t.introAria}
-          aria-modal="true"
-          role="dialog"
-          initial={{ opacity: 1 }}
-          exit={{ opacity: 0, scale: 0.985, y: -10 }}
-          transition={{ duration: reducedMotion ? 0.15 : 0.65, ease: [0.2, 0.8, 0.2, 1] }}
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: reducedMotion ? 0.01 : 0.72, ease: [0.2, 0.8, 0.2, 1] }}
         >
           <InteractiveField />
-          <CelestialDecor />
           <div className="intro-vignette" />
           <header className="intro-topline"><span><i /> FIELD NOTE 001</span><span>TECH / DATA / HUMAN</span></header>
-          <div className="intro-utilities"><LanguageSwitch compact /><button className="intro-skip" type="button" onClick={onComplete}>{t.introSkip} <kbd>ESC</kbd></button></div>
+          <div className="intro-utilities"><LanguageSwitch compact /><a className="intro-skip" href="#home">{t.introSkip} <kbd>↓</kbd></a></div>
 
           <div className="intro-focus">
             <motion.div
@@ -224,8 +180,18 @@ export function IntroExperience({ onComplete, visible }: IntroExperienceProps) {
               <span className="intro-sticker intro-sticker--bubble" aria-hidden="true"><i /></span>
               <span className="intro-sticker intro-sticker--smile" aria-hidden="true">☺</span>
               <ProfilePhoto className="intro-photo" sizes="(max-width: 700px) 180px, 240px" priority />
+              <span className="intro-photo-scan" aria-hidden="true" />
               <span className="intro-photo-spark"><Sparkles size={15} /></span>
             </motion.div>
+
+            <div className="intro-diagnostic-flow" role="list" aria-label={language === "en" ? "Focus areas: IT Support, databases, and data mining" : "Fokus: IT Support, basis data, dan data mining"}>
+              {diagnosticStages.map((stage, index) => (
+                <span className="intro-diagnostic-group" role="listitem" key={stage}>
+                  <span className="intro-diagnostic-step" style={{ animationDelay: `${0.4 + index * 0.2}s` }}><i />{stage}</span>
+                  {index < diagnosticStages.length - 1 && <span className="intro-diagnostic-link" aria-hidden="true" style={{ animationDelay: `${0.55 + index * 0.2}s` }} />}
+                </span>
+              ))}
+            </div>
 
             <motion.p className="intro-index" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.38, duration: 0.65, ease: [0.2, 0.8, 0.2, 1] }}>{t.introIndex} · {new Date().getFullYear()}</motion.p>
             <motion.h1 initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55, duration: reducedMotion ? 0.01 : 0.85, ease: [0.2, 0.8, 0.2, 1] }}>
@@ -234,22 +200,19 @@ export function IntroExperience({ onComplete, visible }: IntroExperienceProps) {
             <motion.p className="intro-role" initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.78, duration: 0.65, ease: [0.2, 0.8, 0.2, 1] }}>
               {role} <span>·</span> {t.introRole}
             </motion.p>
-            <motion.button
-              className={`intro-enter ${ready ? "intro-enter--ready" : ""}`}
-              type="button"
-              onClick={onComplete}
+            <motion.a
+              className="intro-enter intro-enter--ready"
+              href="#home"
               initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: ready ? 1 : 0.45, y: 0 }}
-              transition={{ delay: ready ? 0 : 0.95, duration: 0.6, ease: [0.2, 0.8, 0.2, 1] }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.55, duration: 0.65, ease: [0.2, 0.8, 0.2, 1] }}
             >
-              <span>{ready ? t.introEnter : t.introLoading}</span>
-              {ready ? <ArrowDownRight size={17} /> : <span className="intro-loader" />}
-            </motion.button>
+              <span>{t.introEnter}</span>
+              <ArrowDownRight size={17} />
+            </motion.a>
           </div>
 
           <footer className="intro-bottom"><span>MUHAMMAD AR RAFI SAIFUDDIN</span><span>{t.introHint} <ArrowDown size={12} /></span></footer>
         </motion.section>
-      )}
-    </AnimatePresence>
   );
 }
